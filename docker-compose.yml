@@ -1,0 +1,44 @@
+version: '3.8'
+
+
+services:
+#  api:
+#    build: ./server
+#    container_name: server_chat
+#    ports:
+#      - '5000:5000'
+#    volumes:
+#      - ./server:/server
+#      - ./server/node_modules
+
+
+
+  redis:
+    container_name: redis-chat
+    image: redis:6.0
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+    networks:
+      - webnet
+  postgres:
+    container_name: postgres-chat
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: NnVvGET
+      POSTGRES_USER: postgres
+      POSTGRES_DB: gb_news
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  webnet:
+volumes:
+  pgdata:
+  redis:
+    driver: local
